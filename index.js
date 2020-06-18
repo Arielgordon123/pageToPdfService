@@ -18,6 +18,7 @@ async function printPDF(link) {
   });
   const page = await browser.newPage();
   await page.goto(link, { waitUntil: "networkidle0" });
+  await page.emulateMediaType('screen');
   const pdf = await page.pdf({ format: "A4" });
 
   await browser.close();
