@@ -16,7 +16,8 @@ app.use(bodyParser.json())
 async function printPDF(link) {
   const browser = await puppeteer.launch({
     headless: true,
-    args: ["--disable-dev-shm-usage"],
+    args: ["--disable-dev-shm-usage",  "--no-sandbox",
+    "--disable-gpu",],
   });
   const page = await browser.newPage();
   await page.goto(link, { waitUntil: "networkidle0" });
