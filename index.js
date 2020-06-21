@@ -18,7 +18,7 @@ async function printPDF(link) {
   });
   const page = await browser.newPage();
   await page.goto(link, { waitUntil: "networkidle0" });
-  await page.emulateMediaType('screen');
+  await page.emulateMediaType("screen");
   const pdf = await page.pdf({ format: "A4" });
 
   await browser.close();
@@ -26,6 +26,21 @@ async function printPDF(link) {
 }
 
 app.get("/", (req, res) => {
+  const { rawHeaders, httpVersion, method, socket, url } = req;
+  const { remoteAddress, remoteFamily } = socket;
+
+  console.log(
+    JSON.stringify({
+      timestamp: Date.now(),
+      rawHeaders,
+      httpVersion,
+      method,
+      remoteAddress,
+      remoteFamily,
+      url,
+    })
+  );
+
   if (req.query.link) {
     printPDF(req.query.link).then((pdf) => {
       res.set({
